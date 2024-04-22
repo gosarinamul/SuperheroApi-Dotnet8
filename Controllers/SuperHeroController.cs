@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SuperheroApi_Dotnet8.Controllers.Entities;
+using SuperheroApi_Dotnet8.Data;
 
 namespace SuperheroApi_Dotnet8.Controllers
 {
@@ -8,20 +10,18 @@ namespace SuperheroApi_Dotnet8.Controllers
     [ApiController]
     public class SuperHeroController : ControllerBase
     {
+        // Inject DataContext
+        private readonly DataContext _context;
+        public SuperHeroController(DataContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<SuperHero>>> GetAllHeroes()
         {
-            var heroes = new List<SuperHero>
-            {
-                new SuperHero
-                {
-                    Id = 1,
-                    Name = "Spider Man",
-                    FirstName = "Peter",
-                    LastName = "Parker",
-                    Place = "New york city"
-                }
-            };
+            // DB set of SuperHeroes
+            var heroes = await _context.SuperHeroes.ToListAsync();
             return Ok(heroes);
         
         }
