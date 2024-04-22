@@ -24,6 +24,7 @@ namespace SuperheroApi_Dotnet8.Controllers
             };
             return Ok(heroes);
         
+        }
 
     }
 }
